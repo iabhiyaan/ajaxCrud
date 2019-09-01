@@ -103,14 +103,14 @@ class AjaxControler extends Controller
     public function search(Request $request)
     {
         $searchTerm = $request->term;
-        $items = item::where('item','LIKE', '%' . $searchTerm . '%') ->get();
-        if(count($items) == 0) {
+        $items = item::where('item', 'LIKE', '%' . $searchTerm . '%')->get();
+        if (count($items) == 0) {
             $searchResult[] = 'No Thing Found';
         } else {
-            foreach($items as $item) {
+            foreach ($items as $item) {
                 $searchResult[] = $item->item;
             }
-            return $searchResult;
         }
+        return $searchResult;
     }
 }
