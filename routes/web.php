@@ -19,3 +19,4 @@ Route::get('/', function () {
 Route::resource('ajax','admin\AjaxControler');
 Route::post('delete','admin\AjaxControler@delete');
 Route::post('update','admin\AjaxControler@aupdate');
+Route::get('search','admin\AjaxControler@search')->name('search');

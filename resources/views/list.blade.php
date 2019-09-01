@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 </head>
 
 <body>
@@ -47,6 +48,9 @@
                     <div class="d-flex justify-content-between align-items-center px-3">
                         <div class="card-title text-center py-3">
                             Todo List
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="tags" />
                         </div>
                         <div>
                             <a id="addIcon" data-toggle="modal" data-target="#ajaxModal">
@@ -105,8 +109,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script>
-        $(document).ready(function() {
+    $(document).ready(function() {
         $(document).on('click', '.ourItem', function() {
             var text = $(this).text();
             var text = $.trim(text);
@@ -129,11 +134,10 @@
         })
         $('#addList').click(function() {
             var text = $('#addItem').val();
-            if(text == '') {
+            if (text == '') {
                 alert('please insert some data');
                 console.log(text);
-            }
-           else {
+            } else {
                 $.post(
                     'ajax', {
                         "item": text,
@@ -144,7 +148,7 @@
                         $('.card-body').load(location.href + ' #listUL');
                     }
                 );
-           }
+            }
         });
         $('#delete').click(function() {
             var grabmodalId = $('#modalId').val();
@@ -170,7 +174,12 @@
                 $('.card-body').load(location.href + ' #listUL');
                 console.log(data);
             })
-        })
+        });
+        $(function() {
+            $("#tags").autocomplete({
+                source: '{{ route('search') }}'
+            });
+        });
     });
     </script>
 </body>

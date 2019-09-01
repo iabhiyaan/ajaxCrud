@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\item;
+use Illuminate\Http\Request;
+
 class AjaxControler extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class AjaxControler extends Controller
     public function index()
     {
         $table = item::all();
-        return view('list')->with('table',$table);
+        return view('list')->with('table', $table);
     }
 
     /**
@@ -37,9 +38,9 @@ class AjaxControler extends Controller
     public function store(Request $request)
     {
         $item = new item;
-        $item -> item = $request -> item;
-        $item -> save();
-       return 'DONE';
+        $item->item = $request->item;
+        $item->save();
+        return 'DONE';
         // return $request -> all();
     }
 
@@ -87,14 +88,29 @@ class AjaxControler extends Controller
     {
         //
     }
-    public function delete(Request $request) {
-        item::where("id", $request -> id) -> delete();
+    public function delete(Request $request)
+    {
+        item::where("id", $request->id)->delete();
         return $request->all;
     }
-    public function aupdate(Request $request) {
+    public function aupdate(Request $request)
+    {
         $item = item::find($request->id);
-        $item->item = $request -> item;
+        $item->item = $request->item;
         $item->save();
         return $request->all();
+    }
+    public function search(Request $request)
+    {
+        $searchTerm = $request->term;
+        $items = item::where('item','LIKE', '%' . $searchTerm . '%') ->get();
+        if(count($items) == 0) {
+            $searchResult[] = 'No Thing Found';
+        } else {
+            foreach($items as $item) {
+                $searchResult[] = $item->item;
+            }
+            return $searchResult;
+        }
     }
 }
